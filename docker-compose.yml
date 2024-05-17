@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # MySQL service
+  db:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student
+    ports:
+      - "3307:3306"  # Host:Container
+
+  # Node.js app service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app
+    # volumes:
+    #   - .:/proj
+    ports:
+      - "3000:3000"  # Host:Container
+    depends_on:
+      - db  # Ensure MySQL container is running before starting the app
